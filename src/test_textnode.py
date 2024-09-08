@@ -1,27 +1,43 @@
 import unittest
 
-from textnode import TextNode
+from textnode import TextNode, text_node_to_html_node, LeafNode
+
 
 class TestTextNode(unittest.TestCase):
-    def __init__(self, text, text_type=None, url=None):
-        self.text = text
-        self.text_type = text_type
-        self.url = url
-
     def test_eq(self):
-        node = TextNode("This is a text node", "bold", url="https://www.boot.dev")
-        node2 = TextNode("This is a text node", "bold", url="https://www.boot.dev")
+        node = TextNode("This is a text node", "bold")
+        node2 = TextNode("This is a text node", "bold")
         self.assertEqual(node, node2)
     
-    def test_url_none(self):
-        node = TextNode("This is a text node", "bold", url=None)
-        node2 = TextNode("This is a text node", "bold", url=None)
+    
+    def test_eq2(self):
+        node = TextNode("This is a text node", "bold", "url")
+        node2 = TextNode("This is a text node", "bold", "url")
         self.assertEqual(node, node2)
-
-    def test_text_prop_italic(self):
-        node = TextNode("This is a text node", "bold", url="https://www.boot.dev")
-        node2 = TextNode("This is a text node", "italic", url="https://www.boot.dev")
+    
+    
+    def test_not_eq1(self):
+        node = TextNode("This is a text node", "bold")
+        node2 = TextNode("This is a text node2", "bold")
         self.assertNotEqual(node, node2)
+
+
+    def test_not_eq2(self):
+        node = TextNode("This is a text node", "bold")
+        node2 = TextNode("This is a text node", "italic")
+        self.assertNotEqual(node, node2)
+
+
+    def test_not_eq3(self):
+        node = TextNode("This is a text node", "bold", "url")
+        node2 = TextNode("This is a text node2", "bold", None)
+        self.assertNotEqual(node, node2)
+
+
+    def test_repr(self):
+        node = TextNode("This is a text node", "bold", "url")
+        text = "TextNode(This is a text node, bold, url)"
+        self.assertEqual(node.__repr__(), text)
 
 
 if __name__ == "__main__":
